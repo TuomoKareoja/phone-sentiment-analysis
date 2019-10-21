@@ -76,7 +76,16 @@ target/
 .ipynb_checkpoints/
 
 # exclude data from source control by default
-/data/
+/data/raw/*
+/data/interim/*
+/data/predictions/*
+/data/processed/*
+/data/external/*
+!/data/raw/.gitkeep
+!/data/interim/.gitkeep
+!/data/predictions/.gitkeep
+!/data/processed/.gitkeep
+!/data/external/.gitkeep
 
 # Mac OS-specific storage files
 .DS_Store
@@ -99,3 +108,6 @@ target/
 *.nav
 *.out
 *.xwm
+
+# need to be user created and not from somebody else
+emr_job.json

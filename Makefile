@@ -27,6 +27,47 @@ requirements: test_environment
 data: requirements
 	$(PYTHON_INTERPRETER) src/data/make_dataset.py data/raw data/processed
 
+# Creates EMR job specifications, creates S3 bucket and runs the EMR job
+run_emr:
+	make job_json
+	make create_bucket
+	make run_cluster
+
+## Creates a json specification for the EMR job
+job_json:
+	$(PYTHON_INTERPRETER) ./emr/createJsonFilesPv3.py
+	
+## creates needed S3 bucket for running the EMR job with right scripts
+create_bucket:
+	# its best to use us-east-1 to prevent data-transfer charges as common crawl
+	# is saved in this region
+	export $(cat .env | grep -v ^# | xargs) && \
+	aws s3api create-bucket --bucket $(S3_BUCKET) --region us-east-1 && \
+	aws s3 cp ./emr/Mapper.py s3://$(S3_BUCKET)/scripts/ && \
+	aws s3 cp ./emr/Reducer.py s3://$(S3_BUCKET)/scripts/
+
+## runs EMR job using emr_job.json steps
+run_cluster:
+	export $(cat .env | grep -v ^# | xargs) && \
+	aws emr create-cluster --name $(EMR_JOB) \
+		--ec2-attributes SubnetId=subnet-$(SUBNET_ID) \
+		--release-label emr-5.4.0 \
+		--auto-terminate \
+		--log-uri s3://$(S3_BUCKET)/logs/ \
+		--use-default-roles \
+		--enable-debugging \
+		--instance-groups \
+		InstanceGroupType=MASTER,InstanceCount=1,InstanceType=m1.large \
+		InstanceGroupType=CORE,InstanceCount=8,InstanceType=m1.medium \
+		--steps file://./emr/emr_job.json
+		
+## Download the results of the EMR job from S3 and combines them
+download_data:
+	export $(cat .env | grep -v ^# | xargs) && \
+	aws s3 cp s3://$(S3_BUCKET)/output/ ./data/raw/ --recursive && \
+	$(PYTHON_INTERPRETER) ./emr/concatenatepv3.py
+	
+# find ./data/raw -type f -name "_SUCCESS" -delete && \
 ## Delete all compiled Python files
 clean:
 	find . -type f -name "*.py[co]" -delete
