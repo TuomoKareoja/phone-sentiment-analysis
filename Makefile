@@ -27,13 +27,7 @@ requirements: test_environment
 data: requirements
 	$(PYTHON_INTERPRETER) src/data/make_dataset.py data/raw data/processed
 
-# Creates EMR job specifications, creates S3 bucket and runs the EMR job
-run_emr:
-	make job_json
-	make create_bucket
-	make run_cluster
-
-## Creates a json specification for the EMR job
+## Creates a json specifications for the EMR job
 job_json:
 	$(PYTHON_INTERPRETER) ./emr/createJsonFilesPv3.py
 	
@@ -46,8 +40,8 @@ create_bucket:
 	aws s3 cp ./emr/Mapper.py s3://$(S3_BUCKET)/scripts/ && \
 	aws s3 cp ./emr/Reducer.py s3://$(S3_BUCKET)/scripts/
 
-## runs EMR job using emr_job.json steps
-run_cluster:
+## runs EMR job using emr_job1.json steps
+run_job1:
 	export $(cat .env | grep -v ^# | xargs) && \
 	aws emr create-cluster --name $(EMR_JOB) \
 		--ec2-attributes SubnetId=subnet-$(SUBNET_ID) \
@@ -57,9 +51,41 @@ run_cluster:
 		--use-default-roles \
 		--enable-debugging \
 		--instance-groups \
-		InstanceGroupType=MASTER,InstanceCount=1,InstanceType=m1.large \
-		InstanceGroupType=CORE,InstanceCount=8,InstanceType=m1.medium \
-		--steps file://./emr/emr_job.json
+		InstanceGroupType=MASTER,InstanceCount=1,InstanceType=c4.large \
+		InstanceGroupType=CORE,InstanceCount=4,InstanceType=c4.large \
+		--steps file://./emr/emr_job1.json
+		
+
+## runs EMR job using emr_job2.json steps
+run_job2:
+	export $(cat .env | grep -v ^# | xargs) && \
+	aws emr create-cluster --name $(EMR_JOB) \
+		--ec2-attributes SubnetId=subnet-$(SUBNET_ID) \
+		--release-label emr-5.4.0 \
+		--auto-terminate \
+		--log-uri s3://$(S3_BUCKET)/logs/ \
+		--use-default-roles \
+		--enable-debugging \
+		--instance-groups \
+		InstanceGroupType=MASTER,InstanceCount=1,InstanceType=c4.large \
+		InstanceGroupType=CORE,InstanceCount=4,InstanceType=c4.large \
+		--steps file://./emr/emr_job2.json
+		
+
+## runs EMR job using emr_job3.json steps
+run_job3:
+	export $(cat .env | grep -v ^# | xargs) && \
+	aws emr create-cluster --name $(EMR_JOB) \
+		--ec2-attributes SubnetId=subnet-$(SUBNET_ID) \
+		--release-label emr-5.4.0 \
+		--auto-terminate \
+		--log-uri s3://$(S3_BUCKET)/logs/ \
+		--use-default-roles \
+		--enable-debugging \
+		--instance-groups \
+		InstanceGroupType=MASTER,InstanceCount=1,InstanceType=c4.large \
+		InstanceGroupType=CORE,InstanceCount=4,InstanceType=c4.large \
+		--steps file://./emr/emr_job3.json
 		
 ## Download the results of the EMR job from S3 and combines them
 download_data:

@@ -110,4 +110,4 @@ target/
 *.xwm
 
 # need to be user created and not from somebody else
-emr_job.json
+emr_job*.json

@@ -31,89 +31,86 @@ outputPath = "s3://{bucket}/output/".format(bucket=S3_BUCKET)
 def main():
     scriptsPathCheck()
     inputFileName = os.path.join("emr", "wetpaths.bdf")
-    outputFileName = os.path.join("emr", "emr_job")
-    if not detectExistingOutputFile(outputFileName):
-        with open("./" + inputFileName) as infile:
-            with open("./" + outputFileName + ".json", "w+") as outfile:
+    with open("./" + inputFileName) as infile:
 
-                # Begin a boolean flag
-                isFirstLine = True
-                lastLine = infile.readline()
-                lastLine == False
-                # Print the JSON file header markup
-                outfile.write("[\n")
-                lineCounter = 0
-                # Check for non-URL entries in input file
-                for line in infile:
-                    # if len(line) < 10:
-                    #     print ("Short line in input file, please check/rid your input file of extra blank lines. Exiting...")
-                    # sys.exit()
-                    # Parse the elements out of the line
-                    linesplit = line.split("/")
-                    ccMainNumber = linesplit[4]
-                    segmentnumber = linesplit[6]
-                    filerange = linesplit[8].rstrip()
+        outputFileNumber = 1
+        outputFileName = os.path.join("emr", "emr_job{}".format(outputFileNumber))
+        lineCounter = 0
+        outfile = open("./" + outputFileName + ".json", "w+")
 
-                    # if(isFirstLine == False):
-                    #     outfile.write (",\n")
-                    # isFirstLine = False
-                    # Print the markup for each line
-                    outfile.write("{\n")
-                    outfile.write(
-                        '"Name": "segment_'
-                        + segmentnumber
-                        + "_file_"
-                        + filerange.split("-")[4].split(".")[0]
-                        + '",\n'
-                    )
-                    outfile.write('"ActionOnFailure": "CONTINUE",\n')
-                    outfile.write(
-                        '"Jar": "/usr/lib/hadoop-mapreduce/hadoop-streaming.jar",\n'
-                    )
-                    outfile.write('"Args":\n')
-                    outfile.write("[\n")
-                    outfile.write(
-                        '"-files", '
-                        + '"'
-                        + scriptsPath
-                        + "Mapper.py,"
-                        + scriptsPath
-                        + 'Reducer.py",\n'
-                    )
-                    outfile.write('"-mapper", "Mapper.py",\n')
-                    outfile.write('"-reducer", "Reducer.py",\n')
-                    outfile.write(
-                        '"-input", "s3://commoncrawl/crawl-data/'
-                        + ccMainNumber
-                        + "/segments/"
-                        + segmentnumber
-                        + "/wet/"
-                        + filerange
-                        + '",\n'
-                    )
-                    outfile.write(
-                        '"-output"'
-                        + ", "
-                        + '"'
-                        + outputPath
-                        + segmentnumber
-                        + "_"
-                        + filerange.split("-")[4].split(".")[0]
-                        + '"'
-                        + ",\n"
-                    )
-                    outfile.write('"-inputformat", "TextInputFormat"\n')
-                    outfile.write("]\n")
-                    outfile.write("},\n")
+        # Print the JSON file header markup
+        outfile.write("[\n")
 
-                    lineCounter += 1
-                    print(ccMainNumber)
-                    print(
-                        "\nSuccessfully wrote",
-                        lineCounter,
-                        "lines to output file:",
-                        outputFileName,
-                    )
+        for line in infile:
+
+            # Parse the elements out of the line
+            linesplit = line.split("/")
+            ccMainNumber = linesplit[4]
+            segmentnumber = linesplit[6]
+            filerange = linesplit[8].rstrip()
+
+            # Print the markup for each line
+            outfile.write("{\n")
+            outfile.write(
+                '"Name": "segment_'
+                + segmentnumber
+                + "_file_"
+                + filerange.split("-")[4].split(".")[0]
+                + '",\n'
+            )
+            outfile.write('"ActionOnFailure": "CONTINUE",\n')
+            outfile.write('"Jar": "/usr/lib/hadoop-mapreduce/hadoop-streaming.jar",\n')
+            outfile.write('"Args":\n')
+            outfile.write("[\n")
+            outfile.write(
+                '"-files", '
+                + '"'
+                + scriptsPath
+                + "Mapper.py,"
+                + scriptsPath
+                + 'Reducer.py",\n'
+            )
+            outfile.write('"-mapper", "Mapper.py",\n')
+            outfile.write('"-reducer", "Reducer.py",\n')
+            outfile.write(
+                '"-input", "s3://commoncrawl/crawl-data/'
+                + ccMainNumber
+                + "/segments/"
+                + segmentnumber
+                + "/wet/"
+                + filerange
+                + '",\n'
+            )
+            outfile.write(
+                '"-output"'
+                + ", "
+                + '"'
+                + outputPath
+                + segmentnumber
+                + "_"
+                + filerange.split("-")[4].split(".")[0]
+                + '"'
+                + ",\n"
+            )
+            outfile.write('"-inputformat", "TextInputFormat"\n')
+            outfile.write("]\n")
+            outfile.write("},\n")
+
+            lineCounter += 1
+            print(ccMainNumber)
+            print(
+                "\nSuccessfully wrote",
+                lineCounter,
+                "lines to output file:",
+                outputFileName,
+            )
+
+            # CHANGING OUTPUTFILE
+
+            # The limit of steps in AWS EMR is 256 including debugging steps
+            # We need to split the jobs into multiple files
+
+            if lineCounter >= 200:
 
                 # Removing the newline and comma
                 outfile.seek(outfile.tell() - 2, os.SEEK_SET)
@@ -121,19 +118,22 @@ def main():
                 # Ending with a "]" to close the beginning parenthesis
                 outfile.write("\n]")
 
+                # Closing current file and opening a new one
+                outfile.close()
+                lineCounter = 0
+                outputFileNumber += 1
+                outputFileName = os.path.join(
+                    "emr", "emr_job{}".format(outputFileNumber)
+                )
+                outfile = open("./" + outputFileName + ".json", "w+")
+                # Print the JSON file header markup
+                outfile.write("[\n")
 
-def detectExistingOutputFile(file):
-    if os.path.isfile(file + ".json"):
-        decision = input(
-            "\nWARNING! If you proceed, you will overwrite your output file. Are you sure?\n[y/n]\n"
-        )
-        if decision == "n":
-            print("Exiting")
-            sys.exit()
-        elif decision == "y":
-            return False
-    else:
-        return False
+        # finishing up the last file
+        outfile.seek(outfile.tell() - 2, os.SEEK_SET)
+        outfile.write("")
+        outfile.write("\n]")
+        outfile.close()
 
 
 def exitMessage():
