@@ -91,7 +91,8 @@ run_job3:
 download_data:
 	export $(cat .env | grep -v ^# | xargs) && \
 	aws s3 cp s3://$(S3_BUCKET)/output/ ./data/raw/ --recursive && \
-	$(PYTHON_INTERPRETER) ./emr/concatenatepv3.py
+	$(PYTHON_INTERPRETER) ./emr/concatenatepv3.py && \
+	rm -rf ./data/raw/*/
 	
 # find ./data/raw -type f -name "_SUCCESS" -delete && \
 ## Delete all compiled Python files

@@ -30,13 +30,20 @@ have not done so already (if you have aws client previously installed).
 
 Creating the data with EMR process:
 
-1. Execute make run_emr in the shell. This will start an EMS process in the AWS servers.
-You can monitor this process trough the aws website. The process should take more than 10
-hours but less than 24.
+1. Create json job step descriptions by executing make job_json. This will break down
+the Common Crawl WET-paths to chunks used as processing steps.
+
+2. Execute make create_bucket. This will create a S3 bucket to hold all necessary data
+and scripts for the EMR jobs.
+
+3-5. Excecute make run_job1-3 in shell. Each of these will start a separate EMR job with
+specific steps dictated by different json files. Although it is possible to put all the
+three scripts running at once, it is probably not actually feasible as the the limit of
+computing instances in AWS is by default 12 and each job takes up 5 instances.
 
 BEWARE! Using Amazon EMS is not free! Processing the data will cost around 10 euros (21.10.2019 pricing)
 
-2. Download and preprocess the data by executing make download_data. The data will appear
+6. Download and preprocess the data by executing make download_data. The data will appear
 in data/raw folder. With two separate files. With one having the actual data and one
 containing the urls of the websites where the data comes from.
 
