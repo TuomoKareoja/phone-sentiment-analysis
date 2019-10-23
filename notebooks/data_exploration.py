@@ -21,7 +21,7 @@ data_galaxy = pd.read_csv(
     os.path.join("data", "external", "galaxy_smallmatrix_labeled_8d.csv")
 )
 
-#%% [markdown]
+#%%[markdown]
 
 # * Columns
 # * The number of missing values
@@ -52,4 +52,33 @@ print(
     ),
 )
 
+#%% [markdown]
+
+# * The distribution of the target values is very polarized. Might the be a reason to split
+# the data into two or three categories (neutral, positive, negative)
+
 #%%
+
+sns.countplot(x="iphonesentiment", data=data_iphone)
+plt.title("IPhone Sentiment Distribution")
+plt.show()
+
+sns.countplot(x="galaxysentiment", data=data_galaxy)
+plt.title("Galaxy Sentiment Distribution")
+plt.show()
+
+#%% [markdown]
+
+# * All feature columns are numeric and as the data is the same we only need to look at
+# one dataset
+
+# * many columns have no variation at all. We should drop these columns even before
+# starting to build the models
+
+feature_columns = data_galaxy.columns[:-1]
+
+for column in feature_columns:
+    sns.countplot(x=column, data=data_galaxy)
+    plt.title(column)
+    plt.show()
+

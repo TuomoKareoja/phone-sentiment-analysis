@@ -1,0 +1,17 @@
+DATASET INFORMATION 
+
+iphone_smallmatrix_labeled_8d.csv and galaxy_smallmatrix_labeled_8d.csv are 
+the data matrices include the counts of relevant words (sentiment lexicons) 
+for about 12,000 instances (web pages). The values in the device sentiment 
+columns (last column in each matrix) represents the overall sentiment toward 
+the device on a scale of 0-5. The overall sentiment value has been manually 
+input by a team who read each webpage and rated the sentiment. 
+
+The scale is as follows:
+
+0: very negative
+1: negative 
+2: somewhat negative 
+3: somewhat positive 
+4: positive 
+5: very positive
