@@ -29,7 +29,11 @@ from sklearn.preprocessing import (
 )
 from sklearn.tree import ExtraTreeRegressor
 
-from src.visualization.visualize import crossvalidate_pipeline_scores, plot_scores
+from src.visualization.visualize import (
+    crossvalidate_pipeline_scores,
+    plot_scores,
+    train_and_plot_prediction_metrics,
+)
 
 # Setting styles
 sns.set(style="whitegrid", color_codes=True, rc={"figure.figsize": (12.7, 9.27)})
@@ -199,7 +203,6 @@ print("\nBest Parameters:", clf.best_params_)
 # * Feature selection does not make much difference, so we will prefer that
 # as it makes for a simpler model
 
-
 #%%
 
 
@@ -246,5 +249,13 @@ scores_optimized = crossvalidate_pipeline_scores(
 )
 
 plot_scores(scores=scores_optimized)
+
+train_and_plot_prediction_metrics(
+    X_train=X_train,
+    y_train=y_train,
+    X_test=X_test,
+    y_test=y_test,
+    pipelines=final_pipelines,
+)
 
 #%%

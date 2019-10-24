@@ -22,14 +22,18 @@ from sklearn.model_selection import (
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import (
+    FunctionTransformer,
     MinMaxScaler,
     RobustScaler,
     StandardScaler,
-    FunctionTransformer,
 )
 from sklearn.tree import ExtraTreeRegressor
 
-from src.visualization.visualize import crossvalidate_pipeline_scores, plot_scores
+from src.visualization.visualize import (
+    crossvalidate_pipeline_scores,
+    plot_scores,
+    train_and_plot_prediction_metrics,
+)
 
 # Setting styles
 InteractiveShell.ast_node_interactivity = "all"
@@ -196,8 +200,9 @@ print("\nBest Parameters:", clf.best_params_)
 
 # # Performance of the optimized model compared to unoptimized model
 #
-# * Feature selection does not make much difference, so we will prefer that
-# as it makes for a simpler model
+# * Feature selection does not make much difference for crossvalidated results...
+# * but is for the test set we see that the model without feature selection
+# works better
 
 
 #%%
@@ -238,4 +243,12 @@ scores_optimized = crossvalidate_pipeline_scores(
 
 plot_scores(scores=scores_optimized)
 
-#%%
+train_and_plot_prediction_metrics(
+    X_train=X_train,
+    y_train=y_train,
+    X_test=X_test,
+    y_test=y_test,
+    pipelines=final_pipelines,
+)
+
+# %%
