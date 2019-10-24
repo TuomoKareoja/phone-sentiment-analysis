@@ -10,7 +10,7 @@ from IPython.core.interactiveshell import InteractiveShell
 
 # Setting styles
 InteractiveShell.ast_node_interactivity = "all"
-sns.set(style="whitegrid", color_codes=True)
+sns.set(style="whitegrid", color_codes=True, rc={"figure.figsize": (12.7, 9.27)})
 
 #%%
 
@@ -41,7 +41,7 @@ print("missing values in galaxy set:", sum(data_galaxy.isnull().sum()))
 
 # # Checking if Datasets are the Same
 #
-# * The dataset only differ from the target variable (sentiment towards IPhone or Samsung Galaxy)
+# * The dataset only differ with the target variable (sentiment towards IPhone or Samsung Galaxy)
 
 #%%
 
@@ -95,6 +95,26 @@ plt.show()
 
 sns.countplot(x="galaxysentiment", data=data_galaxy[data_galaxy.samsunggalaxy == 0])
 plt.title("Galaxy Sentiment Distribution (Galaxy not mentioned)")
+plt.show()
+
+#%% [markdown]
+
+# # How Many Times Websites Actually Mention the Phones
+#
+# * For Iphone, most sites mention the phone at least once
+# * For Galaxy there almost no sites that mention the site more than once
+# and even sites that mention the phone 1 time are less than 1000
+
+#%%
+
+sns.countplot(x="iphone", data=data_iphone)
+plt.title("Number of Times IPhone Mentioned")
+plt.xlabel("Number of Mentions")
+plt.show()
+
+sns.countplot(x="samsunggalaxy", data=data_galaxy)
+plt.title("Number of Times Galaxy Mentioned")
+plt.xlabel("Number of Mentions")
 plt.show()
 
 #%% [markdown]
@@ -173,21 +193,15 @@ for column in feature_columns:
 
 # # Correlation Between the Variables
 #
-# * Correlations are normally low and positive
-# * Distinctive click that only correlate with each other
+# * Distinctive clicks that only correlate with each other
 # (htcphone + htcdispos, iosperpos, iosperneg)
 # * Correlations to the target values are all small and mostly negative
 
 #%%
 
-# Dropping columns with very low variance as we have so many variables
-data_galaxy = data_galaxy.loc[:, data_galaxy.std() > 0.5]
-data_iphone = data_iphone.loc[:, data_iphone.std() > 0.5]
-
-corr_iphone = data_iphone.corr()
-corr_galaxy = data_galaxy.corr()
-
-sns.set(rc={"figure.figsize": (12.7, 9.27)})
+# arranging columns by name
+corr_iphone = data_iphone.reindex(sorted(data_iphone.columns), axis=1).corr()
+corr_galaxy = data_galaxy.reindex(sorted(data_galaxy.columns), axis=1).corr()
 
 sns.heatmap(corr_iphone, cmap="RdBu_r", center=0)
 plt.title("Correlations for IPhone Dataset")
@@ -197,5 +211,70 @@ sns.heatmap(corr_galaxy, cmap="RdBu_r", center=0)
 plt.title("Correlations for Galaxy Dataset")
 plt.show()
 
+#%% [markdown]
+
+# # Correlation Between the Variables When Only Keeping the "Interesting" Columns
+#
+# * Deducting sentiment from mentions of other phones seems very unreliable expect for
+# direct comparisons between Apple and Samsung as these are the market leaders and the
+# phones we are actually doing the comparison for
+# * Dropping columns that don't refer to iphone, galaxy, ios or android
+# * As we would expect android and samsung are mentions are correlated
+# * Iphone and IOS sentiment don't surprisingly have much correlation
+
 
 #%%
+
+columns_to_drop = [
+    "sonyxperia",
+    "nokialumina",
+    "htcphone",
+    "sonycampos",
+    "nokiacampos",
+    "htccampos",
+    "sonycamneg",
+    "nokiacamneg",
+    "htccamneg",
+    "sonycamunc",
+    "nokiacamunc",
+    "htccamunc",
+    "sonydispos",
+    "nokiadispos",
+    "htcdispos",
+    "sonydisneg",
+    "nokiadisneg",
+    "htcdisneg",
+    "sonydisunc",
+    "nokiadisunc",
+    "htcdisunc",
+    "sonyperpos",
+    "nokiaperpos",
+    "htcperpos",
+    "sonyperneg",
+    "nokiaperneg",
+    "htcperneg",
+    "sonyperunc",
+    "nokiaperunc",
+    "htcperunc",
+]
+
+data_iphone_small = data_iphone.drop(columns=columns_to_drop)
+data_galaxy_small = data_galaxy.drop(columns=columns_to_drop)
+
+# arranging columns by name
+data_iphone_small = data_iphone_small.reindex(sorted(data_iphone_small.columns), axis=1)
+data_galaxy_small = data_galaxy_small.reindex(sorted(data_galaxy_small.columns), axis=1)
+
+corr_iphone = data_iphone_small.corr()
+corr_galaxy = data_galaxy_small.corr()
+
+
+sns.heatmap(corr_iphone, cmap="RdBu_r", center=0)
+plt.title("Correlations for IPhone Dataset")
+plt.show()
+
+sns.heatmap(corr_galaxy, cmap="RdBu_r", center=0)
+plt.title("Correlations for Galaxy Dataset")
+plt.show()
+
+# %%
