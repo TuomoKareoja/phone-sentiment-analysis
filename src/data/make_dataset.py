@@ -26,6 +26,47 @@ def main(input_filepath, output_filepath):
         os.path.join("data", "external", "galaxy_smallmatrix_labeled_8d.csv")
     )
 
+    logger.info("Dropping all columns not explicitly related to iphone or samsung")
+    # Mentions of Sony and HTC might at some point contain information about
+    # the iphone as comparison, but both these companies are not doing well
+    # in the smartphone business and probably these kinds of comparisons
+    # are not made in more recent data.
+    # Even for older data we would trust the data more if the actually refers
+    # to the actual phone or its operating system than just some related phone
+
+    columns_to_drop = [
+        "sonyxperia",
+        "nokialumina",
+        "htcphone",
+        "sonycampos",
+        "nokiacampos",
+        "htccampos",
+        "sonycamneg",
+        "nokiacamneg",
+        "htccamneg",
+        "sonycamunc",
+        "nokiacamunc",
+        "htccamunc",
+        "sonydispos",
+        "nokiadispos",
+        "htcdispos",
+        "sonydisneg",
+        "nokiadisneg",
+        "htcdisneg",
+        "sonydisunc",
+        "nokiadisunc",
+        "htcdisunc",
+        "sonyperpos",
+        "nokiaperpos",
+        "htcperpos",
+        "sonyperneg",
+        "nokiaperneg",
+        "htcperneg",
+        "sonyperunc",
+        "nokiaperunc",
+        "htcperunc",
+    ]
+
     logger.info("Dropping unnecessary columns with no variation")
     # we know that the predicted columns have variance so
     # we do not need to specify them as safe

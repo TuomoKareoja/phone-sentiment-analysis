@@ -47,14 +47,23 @@ def crossvalidate_pipeline_scores(X, y, pipelines, n_splits, random_state):
     return scores
 
 
-def plot_scores(scores):
+def plot_scores(scores, show_costs=False):
     """Generates BoxPlots for all metrics
     
     :param scores: Dataframe with columns model, metric, fold and value (output from crossvalidate_pipelines)
     :type scores: dataframe
+    :param show_cost: Plot the computation cost metrics
+    :type show_cost: boolean
     """
 
     for metric in scores.metric.drop_duplicates():
+        if not show_costs:
+            if metric not in [
+                "test_r2",
+                "test_neg_mean_absolute_error",
+                "test_neg_mean_squared_error",
+            ]:
+                continue
         print(metric)
         sns.boxplot(x="model", y="value", data=scores[scores.metric == metric])
         plt.title(metric)

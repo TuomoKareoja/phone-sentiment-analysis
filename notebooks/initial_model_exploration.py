@@ -28,7 +28,7 @@ from src.visualization.visualize import crossvalidate_pipeline_scores, plot_scor
 
 # Setting styles
 InteractiveShell.ast_node_interactivity = "all"
-sns.set(style="whitegrid", color_codes=True)
+sns.set(style="whitegrid", color_codes=True, rc={"figure.figsize": (12.7, 9.27)})
 
 random_state = 123
 
@@ -82,13 +82,13 @@ X_train_galaxy, X_test_galaxy, y_train_galaxy, y_test_galaxy = train_test_split(
 # so we use RobustScaler instead of StandardScaler
 pipelines = {
     "glmnet": make_pipeline(VarianceThreshold(), RobustScaler(), ElasticNet()),
-    "svm": make_pipeline(VarianceThreshold(), RobustScaler(), SVR()),
+    "svm": make_pipeline(VarianceThreshold(), RobustScaler(), SVR(gamma="auto")),
     "knn": make_pipeline(VarianceThreshold(), RobustScaler(), KNeighborsRegressor()),
     "gradientboosting": make_pipeline(
         VarianceThreshold(), RobustScaler(), GradientBoostingRegressor()
     ),
     "randomforerst": make_pipeline(
-        VarianceThreshold(), RobustScaler(), RandomForestRegressor()
+        VarianceThreshold(), RobustScaler(), RandomForestRegressor(n_estimators=100)
     ),
     "decisiontrees": make_pipeline(
         VarianceThreshold(), RobustScaler(), DecisionTreeRegressor()
@@ -102,7 +102,7 @@ pipelines = {
 
 # # Comparing the Models with Iphone Data
 #
-# * SVM and KNN are computationally expensive to train
+# * SVM and KNN are computationally expensive to train, but KNN only for metric calculation
 # * GLMNET is significantly worse than any other model
 
 #%% Scoring and plotting iphone data
@@ -115,13 +115,12 @@ scores_iphone = crossvalidate_pipeline_scores(
     random_state=random_state,
 )
 
-plot_scores(scores=scores_iphone)
+plot_scores(scores=scores_iphone, show_costs=True)
 
 #%% [markdown]
 
 # # Comparing the Models with Galaxy Data
 #
-# * SVM and KNN are computationally expensive to train
 # * GLMNET is significantly worse than any other model
 
 #%% Scoring and plotting galaxy data
@@ -203,11 +202,11 @@ plot_scores(scores=scores_galaxy)
 # # Conclusion
 #
 # * GLMNET performs so poorly that we will not take it into futher consideration
+# * Training SVM takes too long and does not offer many benefits over other models
 # * With the tree models Random forest is bit better than Decision Trees and Extra Trees,
 # so we drop the formers out
 #
 # * Models picked for further analysis:
-#   * SVM
 #   * KNN
 #   * Gradient Boosting
 #   * Random Forest
