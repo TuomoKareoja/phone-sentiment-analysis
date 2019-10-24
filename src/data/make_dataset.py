@@ -66,6 +66,8 @@ def main(input_filepath, output_filepath):
         "nokiaperunc",
         "htcperunc",
     ]
+    df_iphone.drop(columns=columns_to_drop, inplace=True)
+    df_galaxy.drop(columns=columns_to_drop, inplace=True)
 
     logger.info("Dropping unnecessary columns with no variation")
     # we know that the predicted columns have variance so

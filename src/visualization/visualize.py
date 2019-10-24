@@ -64,7 +64,6 @@ def plot_scores(scores, show_costs=False):
                 "test_neg_mean_squared_error",
             ]:
                 continue
-        print(metric)
         sns.boxplot(x="model", y="value", data=scores[scores.metric == metric])
         plt.title(metric)
         plt.show()

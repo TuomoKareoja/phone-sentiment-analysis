@@ -72,14 +72,12 @@ X_train_galaxy, X_test_galaxy, y_train_galaxy, y_test_galaxy = train_test_split(
 # * Preprocessing steps in the pipelines are following:
 #   * Dropping features with no variance (already done for the dataset,
 # but not within each fold)
-#   * Scaling with RobustScaler as there are both outliers
+#   * Scaling with RobustScaler as there are outliers
 # and the values don't follow a Gaussian distribution
 
 
 #%% Creating Pipelines
 
-# The data are clearly not normally distributed and there are outliers
-# so we use RobustScaler instead of StandardScaler
 pipelines = {
     "glmnet": make_pipeline(VarianceThreshold(), RobustScaler(), ElasticNet()),
     "svm": make_pipeline(VarianceThreshold(), RobustScaler(), SVR(gamma="auto")),
