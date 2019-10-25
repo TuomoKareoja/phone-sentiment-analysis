@@ -41,11 +41,11 @@ random_state = 123
 
 #%% Loading data
 
-data = pd.read_csv(os.path.join("data", "processed", "iphone.csv"))
+data = pd.read_csv(os.path.join("data", "processed", "galaxy.csv"))
 
 #%% Splitting to train and test
 
-target = "iphonesentiment"
+target = "galaxysentiment"
 
 X_train, X_test, y_train, y_test = train_test_split(
     data.drop(columns=target), data[target], test_size=0.2, random_state=random_state
@@ -102,9 +102,9 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 selector = RFECV(
     RandomForestRegressor(
-        n_estimators=999,
-        max_depth=9,
-        min_samples_split=9,
+        n_estimators=436,
+        max_depth=14,
+        min_samples_split=5,
         n_jobs=3,
         random_state=random_state,
     ),
@@ -128,6 +128,8 @@ print(
 # # Optimizing the Hyperparameters for Model with Feature Selection
 #
 # * Using scoring metric of mean squared error
+# * we get the exact same hyperparameters as for the optimized model
+# without feature selection
 
 #%% Optimization
 
@@ -189,30 +191,17 @@ final_pipelines = {
         FunctionTransformer(drop_preselected_columns, validate=False),
         RandomForestRegressor(n_estimators=100),
     ),
-    "optimized_model_for_no_feature_selection": make_pipeline(
-        VarianceThreshold(),
-        RandomForestRegressor(
-            n_estimators=999, max_depth=9, min_samples_split=9, n_jobs=3
-        ),
-    ),
-    "optimized_model_for_no_feature_feature_selection": make_pipeline(
-        VarianceThreshold(),
-        FunctionTransformer(drop_preselected_columns, validate=False),
-        RandomForestRegressor(
-            n_estimators=999, max_depth=9, min_samples_split=9, n_jobs=3
-        ),
-    ),
     "optimized_model": make_pipeline(
         VarianceThreshold(),
         RandomForestRegressor(
-            n_estimators=682, max_depth=12, min_samples_split=10, n_jobs=3
+            n_estimators=667, max_depth=12, min_samples_split=4, n_jobs=3
         ),
     ),
     "optimized_model_feature_selection": make_pipeline(
         VarianceThreshold(),
         FunctionTransformer(drop_preselected_columns, validate=False),
         RandomForestRegressor(
-            n_estimators=682, max_depth=12, min_samples_split=10, n_jobs=3
+            n_estimators=667, max_depth=12, min_samples_split=4, n_jobs=3
         ),
     ),
 }
