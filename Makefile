@@ -95,9 +95,13 @@ download_data:
 	rm -rf ./data/raw/*/
 	
 ## Train optimized models used for predictions
-train_models:
+train:
 	$(PYTHON_INTERPRETER) src/models/train_models_iphone.py
 	$(PYTHON_INTERPRETER) src/models/train_models_galaxy.py
+	
+## predict with the trained models
+predict:
+	$(PYTHON_INTERPRETER) src/models/predict_models.py
 	
 # find ./data/raw -type f -name "_SUCCESS" -delete && \
 ## Delete all compiled Python files
