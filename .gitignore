@@ -77,11 +77,9 @@ target/
 
 # exclude data from source control by default
 /data/raw/*
-/data/interim/*
 /data/predictions/*
 /data/processed/*
 !/data/raw/.gitkeep
-!/data/interim/.gitkeep
 !/data/predictions/.gitkeep
 !/data/processed/.gitkeep
 

@@ -10,8 +10,8 @@ Project Organization
     ├── Makefile           <- Makefile with commands like `make data` or `make train`
     ├── README.md          <- The top-level README for developers using this project
     ├── data
-    │   ├── external       <- Data from third party sources
-    │   ├── interim        <- Intermediate data that has been transformed
+    │   ├── external       <- Manually labeled training datasets
+    │   ├── prediction     <- Data with predictions added
     │   ├── processed      <- The final, canonical data sets for modeling
     │   └── raw            <- Raw input from the EMR job
     │
@@ -21,7 +21,7 @@ Project Organization
     │
     ├── sphinx             <- A default Sphinx project; see sphinx-doc.org for details
     │
-    ├── models             <- Trained and serialized models, model predictions, or model summaries
+    ├── models             <- Trained and serialized models
     │
     ├── notebooks          <- Jupyter notebooks and notebook-like objects (e.g. .py files meant to
     │                         run with vscode IPython)
@@ -39,13 +39,12 @@ Project Organization
     │   ├── data           <- Scripts to clean the data and get it to proper form
     │   │   └── make_dataset.py
     │   │
-    │   ├── features       <- Scripts to turn raw data into features for modeling
-    │   │   └── build_features.py
-    │   │
     │   ├── models         <- Scripts to train models and then use trained models to make
     │   │   │                 predictions
-    │   │   ├── predict_model.py
-    │   │   └── train_model.py
+    │   │   ├── predict_models_galaxy.py
+    │   │   ├── predict_models_iphone.py
+    │   │   └── train_models_galaxy.py
+    │   │   └── train_models_iphone.py
     │   │
     │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
     │       └── visualize.py
