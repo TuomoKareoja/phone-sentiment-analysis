@@ -30,7 +30,7 @@ data: requirements
 ## Creates a json specifications for the EMR job
 job_json:
 	$(PYTHON_INTERPRETER) ./emr/createJsonFilesPv3.py
-	
+
 ## creates needed S3 bucket for running the EMR job with right scripts
 create_bucket:
 	# its best to use us-east-1 to prevent data-transfer charges as common crawl
@@ -93,6 +93,11 @@ download_data:
 	aws s3 cp s3://$(S3_BUCKET)/output/ ./data/raw/ --recursive && \
 	$(PYTHON_INTERPRETER) ./emr/concatenatepv3.py && \
 	rm -rf ./data/raw/*/
+	
+## Train optimized models used for predictions
+train_models:
+	$(PYTHON_INTERPRETER) src/models/train_models_iphone.py
+	$(PYTHON_INTERPRETER) src/models/train_models_galaxy.py
 	
 # find ./data/raw -type f -name "_SUCCESS" -delete && \
 ## Delete all compiled Python files
