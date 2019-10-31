@@ -1,0 +1,9 @@
+scr.data Module
+===============
+
+.. toctree::
+   :maxdepth: 2
+
+.. automodule:: src.data
+   :members:
+   :undoc-members:

@@ -1,0 +1,3 @@
+.. automodule:: src.data
+   :members:
+   :undoc-members:

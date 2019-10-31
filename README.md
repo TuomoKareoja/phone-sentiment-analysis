@@ -1,10 +1,12 @@
-phone-sentiment-analysis
-==============================
+Phone Sentiment Analysis
+========================
 
 Sentiment analysis of different smartphones and operating systems performed on AWS-cluster using Common Crawl data
 
+Check docs at https://TuomoKareoja.github.io/phone-sentiment-analysis
+
 Project Organization
-------------
+--------------------
 
     ├── LICENSE
     ├── Makefile           <- Makefile with commands like `make data` or `make train`

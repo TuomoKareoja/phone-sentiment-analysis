@@ -1,0 +1,166 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>phone-sentiment-analysis &#8212; phone-sentiment-analysis 0.1 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Getting started" href="getting-started.html" />
+    <link rel="prev" title="Phone Sentiment Analysis" href="index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="getting-started.html" title="Getting started"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Phone Sentiment Analysis"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">phone-sentiment-analysis 0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="phone-sentiment-analysis">
+<h1>phone-sentiment-analysis<a class="headerlink" href="#phone-sentiment-analysis" title="Permalink to this headline">¶</a></h1>
+<p>Sentiment analysis of different smartphones and operating systems performed on AWS-cluster using Common Crawl data</p>
+<div class="section" id="project-organization">
+<h2>Project Organization<a class="headerlink" href="#project-organization" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>├── LICENSE
+├── Makefile           &lt;- Makefile with commands like <cite>make data</cite> or <cite>make train</cite>
+├── README.md          &lt;- The top-level README for developers using this project
+├── data
+│   ├── external       &lt;- Manually labeled training datasets
+│   ├── prediction     &lt;- Data with predictions added
+│   ├── processed      &lt;- The final, canonical data sets for modeling
+│   └── raw            &lt;- Raw input from the EMR job
+│
+├── docs               &lt;- html docs for GitHub Pages
+│
+├── emr                &lt;- scripts and files for running the EMR job in AWS
+│
+├── sphinx             &lt;- A default Sphinx project; see sphinx-doc.org for details
+│
+├── models             &lt;- Trained and serialized models
+│
+├── notebooks          &lt;- Jupyter notebooks and notebook-like objects (e.g. .py files meant to
+│                         run with vscode IPython)
+│
+├── reports            &lt;- Generated analysis as HTML, PDF, LaTeX, etc.
+│   └── figures        &lt;- Generated graphics and figures to be used in reporting
+│
+├── requirements.txt   &lt;- The requirements file for reproducing the analysis environment, e.g.
+│                         generated with <cite>pip freeze &gt; requirements.txt</cite>
+│
+├── setup.py           &lt;- makes project pip installable (pip install -e .) so src can be imported
+├── src                &lt;- Source code for use in this project
+│   ├── __init__.py    &lt;- Makes src a Python module
+│   │
+│   ├── data           &lt;- Scripts to clean the data and get it to proper form
+│   │   └── make_dataset.py
+│   │
+│   ├── models         &lt;- Scripts to train models and then use trained models to make
+│   │   │                 predictions
+│   │   ├── predict_models_galaxy.py
+│   │   ├── predict_models_iphone.py
+│   │   └── train_models_galaxy.py
+│   │   └── train_models_iphone.py
+│   │
+│   └── visualization  &lt;- Scripts to create exploratory and results oriented visualizations
+│       └── visualize.py
+│
+└── tox.ini            &lt;- tox file with settings for running tox; see tox.testrun.org</p>
+</div></blockquote>
+<hr class="docutils" />
+<p>&lt;p&gt;&lt;small&gt;Project based on the &lt;a target=”_blank” href=”<a class="reference external" href="https://drivendata.github.io/cookiecutter-data-science/">https://drivendata.github.io/cookiecutter-data-science/</a>”&gt;cookiecutter data science project template&lt;/a&gt;. #cookiecutterdatascience&lt;/small&gt;&lt;/p&gt;</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">phone-sentiment-analysis</a><ul>
+<li><a class="reference internal" href="#project-organization">Project Organization</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Phone Sentiment Analysis</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="getting-started.html"
+                        title="next chapter">Getting started</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/readme.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="getting-started.html" title="Getting started"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Phone Sentiment Analysis"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">phone-sentiment-analysis 0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+    </div>
+  </body>
+</html>

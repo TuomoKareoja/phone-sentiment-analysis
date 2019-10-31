@@ -1,23 +1,13 @@
 #%% Importing libraries and setting styles
 
 import os
-import copy
 
-import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 import seaborn as sns
-from dotenv import find_dotenv, load_dotenv
 from IPython.core.interactiveshell import InteractiveShell
 from sklearn.ensemble import GradientBoostingRegressor, RandomForestRegressor
 from sklearn.feature_selection import RFECV, VarianceThreshold
-from sklearn.linear_model import ElasticNet, ElasticNetCV
-from sklearn.model_selection import (
-    ShuffleSplit,
-    cross_val_predict,
-    cross_validate,
-    train_test_split,
-)
+from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import RobustScaler

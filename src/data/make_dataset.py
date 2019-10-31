@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+"""Script for processing the data locally. Should be run only with 'make data'
+"""
+
 import logging
 import os
 from pathlib import Path

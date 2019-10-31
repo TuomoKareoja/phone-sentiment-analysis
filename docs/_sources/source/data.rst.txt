@@ -1,0 +1,30 @@
+data package
+============
+
+Submodules
+----------
+
+data.load\_data module
+----------------------
+
+.. automodule:: data.load_data
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+data.make\_dataset module
+-------------------------
+
+.. automodule:: data.make_dataset
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: data
+   :members:
+   :undoc-members:
+   :show-inheritance:

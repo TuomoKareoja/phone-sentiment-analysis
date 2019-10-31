@@ -1,10 +1,18 @@
+# -*- coding: utf-8 -*-
+"""Functions for loading the dataset. Just pure convenience
+"""
+
 import os
 
-import numpy as np
 import pandas as pd
 
 
 def read_and_combine_crawled_data():
+    """Read crawled data from disc and return it as a dataframe
+    
+    :return: Dataframe with crawled data (including urls, that are in a separate file)
+    :rtype: dataframe
+    """
     factors = pd.read_csv(
         os.path.join("data", "raw", "concatenated_factors.csv"), index_col="id"
     )
