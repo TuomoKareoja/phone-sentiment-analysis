@@ -3,7 +3,7 @@ Phone Sentiment Analysis
 
 Sentiment analysis of different smartphones and operating systems performed on AWS-cluster using Common Crawl data
 
-Check docs at https://TuomoKareoja.github.io/phone-sentiment-analysis
+Check docs at https://TuomoKareoja.github.io/phone-sentiment-analysis/
 
 Project Organization
 --------------------
