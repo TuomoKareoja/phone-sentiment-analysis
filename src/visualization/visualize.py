@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import os
+
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
@@ -48,12 +50,14 @@ def crossvalidate_pipeline_scores(X, y, pipelines, n_splits, random_state):
     return scores
 
 
-def plot_scores(scores, show_costs=False):
+def plot_scores(scores, show_costs=False, save=False, plotname=None):
     """Generates BoxPlots for all metrics
     
     :param scores: Dataframe with columns model, metric, fold and value (output from crossvalidate_pipelines)
     :type scores: dataframe
     :param show_cost: Plot the computation cost metrics
+    :type show_cost: boolean
+    :param save: Save created plots to reports/figures/
     :type show_cost: boolean
     """
 
@@ -67,6 +71,11 @@ def plot_scores(scores, show_costs=False):
                 continue
         sns.boxplot(x="model", y="value", data=scores[scores.metric == metric])
         plt.title(metric)
+        plt.tight_layout()
+        if save:
+            plt.savefig(
+                os.path.join("reports", "figures", plotname + "_" + metric + ".png")
+            )
         plt.show()
 
 

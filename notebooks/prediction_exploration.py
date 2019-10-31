@@ -1,6 +1,5 @@
 #%%
 
-
 import re
 import os
 import pprint
@@ -57,7 +56,6 @@ plt.xlabel("Positivity of Sentiment")
 plt.ylabel("Number of Mentions")
 plt.legend()
 plt.show()
-
 
 # %%
 

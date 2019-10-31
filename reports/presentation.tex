@@ -124,6 +124,13 @@ Alert! Analytics \\ % Your institution for the title page
 \section{Summary of Findings}
 %------------------------------------------------
 
+\begin{frame}
+\frametitle{
+
+}
+\LARGE{\centerline{Summary of Findings}}
+\end{frame}
+
 %------------------------------------------------
 \subsection{People Like iPhone More}
 %------------------------------------------------
@@ -131,21 +138,34 @@ Alert! Analytics \\ % Your institution for the title page
 \begin{frame}
 \frametitle{People Like iPhone More}
 
-Only keeping sites with at least two mentions of the phone
+\begin{itemize}
+    \item When the sites actually mention the phones, iPhone sentiment is much more positive
+\end{itemize}
 
-
-
+{
+    \centering
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{sentiment_comparison_predictions.png}
+    \par
+}
 
 \end{frame}
 
 %------------------------------------------------
-\subsection{\ldots but the Training Data for Samsung Galaxy is Sketchy}
+\subsection{\ldots but the Training Data is Sketchy}
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{\ldots but the Training Data for Samsung Galaxy is Sketchy}
+\frametitle{\ldots but the Training Data is Sketchy}
 
-Picture of sentiment and mentions of the phone
+\begin{itemize}
+    \item Sentiment labels for Samsung Galaxy might be derived from iPhone (somebody was lazy and cheated!)
+\end{itemize}
+
+{
+    \centering
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{training_data_problems.png}
+    \par
+}
 
 \end{frame}
 
@@ -156,7 +176,17 @@ Picture of sentiment and mentions of the phone
 \begin{frame}
 \frametitle{\ldots and the Websites Mentioning iPhone are Weird}
 
-Wordcloud
+\begin{itemize}
+    \item Danhostel is a danish hotel chain
+    \item http://brazoriacountytexas.tk/ is maze for web crawling without any content
+\end{itemize}
+
+{
+    \centering
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{wordclouds_for_sites_with_lots_of_mentions.png}
+    \par
+}
+
 
 \end{frame}
 
@@ -164,48 +194,81 @@ Wordcloud
 \section{What We Did?}
 %------------------------------------------------
 
+\begin{frame}
+\frametitle{
+
+}
+\LARGE{\centerline{What We Did?}}
+\end{frame}
+
 %------------------------------------------------
-\subsection{Count Instances of Word and Word Combinations from Websites}
+\subsection{Crawl Websites and Count Word Instances}
 %------------------------------------------------
 
 \begin{frame}
 \frametitle{Count Instances of Word and Word Combinations from Websites}
 
-Common Crawl
-Mentions of phones
-Positive and negative overall mentions and specific to certain attributes
+\begin{enumerate}
+    \item Create scripts that count instances of words related to the the two phones in text files
+    \item Apply the scripts to a large number of websites taken from Common Crawl (cloud computing very useful here)
+    \item Manually label part of the dataset for the sentiment towards the phones
+    \item Predict the manually labeled sentiments from the number of word instances
+\end{enumerate}
+
 
 \end{frame}
 
 %------------------------------------------------
-\subsection{Train Models on Manually Labeled Data and Apply These to the Crawled Data}
+\subsection{Modelling}
 %------------------------------------------------
 
-Picture of model comparison
-
 \begin{frame}
-\frametitle{Train Models on Manually Labeled Data and Apply These to the Crawled Data}
+\frametitle{Modelling}
+
+\begin{itemize}
+    \item Random Forest model perform accurately and is very stabile
+\end{itemize}
+
+{
+    \centering
+    \includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{model_comparison_iphone_test_neg_mean_absolute_error.png}
+    \par
+}
 
 \end{frame}
 
 %------------------------------------------------
-\section{What to Do Better Next Time?}
-%------------------------------------------------
-
-%------------------------------------------------
-\subsection{Make Sure That the Labeling Makes Sense}
+\section{What To Do Better Next Time?}
 %------------------------------------------------
 
 \begin{frame}
-\frametitle{Make Sure That the Labeling Makes Sense}
+\frametitle{
 
-Was this really done by hand and if so, what were the principals
-of evaluation?
+}
+\LARGE{\centerline{What To Do Better Next Time?}}
+\end{frame}
 
-If done programmatically, where is the code?
 
-How is it possible that sites that don't contain any mention of the the device can have
-emotional sentiment towards it?
+%------------------------------------------------
+\subsection{Better Training Data}
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Better Training Data}
+
+\begin{enumerate}
+    \item Better Documentation
+    \begin{itemize}
+        \item Was the labeling really done by hand and if so, what were
+        the guidelines for evaluation?
+        \item If done programmatically, where is the code?
+    \end{itemize}
+    \item Check for Errors
+    \begin{itemize}
+        \item Why are the sentiment almost identical for the two phones?
+        \item How can sites that don't mention phones have sentiments about them?
+    \end{itemize}
+\end{enumerate}
 
 \end{frame}
 
@@ -216,11 +279,19 @@ emotional sentiment towards it?
 \begin{frame}
 \frametitle{Aggressive Limitations on What Sites to Crawl}
 
-What sites are we trying to find?
-
-Forums are tricky but might be valuable
-
-News are problematic because of clickbait
+\begin{enumerate}
+    \item Think first what kind of sites do we want to include
+    \begin{itemize}
+        \item Reviews and news probably easy to find
+        \item Forums are hard to interpret
+        \item Beware of clickbait and ads
+    \end{itemize}
+    \item Test that crawling really finds these sites
+    \begin{itemize}
+        \item Wordclouds of the url
+        \item Manually visiting the sites
+    \end{itemize}
+\end{enumerate}
 
 \end{frame}
 
@@ -232,11 +303,9 @@ News are problematic because of clickbait
 \frametitle{Conclusions}
 
 \begin{enumerate}
-    \item iPhone has a more positive sentiment, but this might because of (fraudulent) giveaways and such
-    \item \ldots but if people would want the Galaxy phones as much as iPhone we would expect there to similar
-    number of these sites for Samsung Galaxy phones and this does not seem to be the case
-    \item More carefully documented labeling needed in the future
-    \item Web crawling should be even more targeted
+    \item Don't trust the current findings. Make the decision by other means
+    \item More carefully documented labeling in the future
+    \item Web crawling should be more targeted
 \end{enumerate}
 
 \end{frame}

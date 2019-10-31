@@ -22,6 +22,7 @@ random_state = 123
 # Setting styles
 InteractiveShell.ast_node_interactivity = "all"
 sns.set(style="whitegrid", color_codes=True, rc={"figure.figsize": (12.7, 9.27)})
+sns.set_context("notebook", font_scale=1.25)
 
 #%% loading data
 
@@ -149,6 +150,6 @@ scores = crossvalidate_pipeline_scores(
     X=X, y=y, pipelines=pipelines, n_splits=30, random_state=random_state
 )
 
-plot_scores(scores=scores)
+plot_scores(scores=scores, save=True, plotname="model_comparison_iphone")
 
 #%%
